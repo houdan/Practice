@@ -1,4 +1,5 @@
 #include "Common.h"
+#include <functional> // std::less
 #include <assert.h>
 
 template<class T>
@@ -100,8 +101,90 @@ void test_ThreeStacks()
 	}
 }
 
+template<class T, typename TLess>
+struct MinStack
+{
+private:
+	NodeS<T> *head;
+	NodeS<T> *min_head;
+
+public:  //!!!!!!!!!!!!!!!!!!!!
+	MinStack() : head(NULL), min_head(NULL) {}
+
+	void push(T data)
+	{
+		NodeS<T> *node = new NodeS<T>;  //!!!!!!!!!!!!!!!!!
+		node->data = data;
+		node->next = head;
+
+		NodeS<T> *min_node = new NodeS<T>;
+		min_node->next = min_head;
+		if(!min_head || !TLess()(min_head->data, data))  //!!!!!!! create comparison object every time
+			min_node->data = data;
+		else
+			min_node->data = min_head->data;  // min_head->data could just call min()
+
+		head = node;
+		min_head = min_node;
+	}
+
+	T pop()
+	{
+		if(!head)
+			std::abort();
+
+		T data = head->data;
+		NodeS<T>* node = head->next;
+		delete head;
+		head = node;
+
+		NodeS<T>* min_node = min_head->next;
+		delete min_head;
+		min_head = min_node;
+
+		return data;
+	}
+
+	T min()
+	{
+		if(!min_head)
+			std::abort();
+
+		return min_head->data;
+	}
+
+	bool empty()
+	{
+		return !head;
+	}
+};
+
+template<template<class T, typename TLess>class S>
+void test_minStack()
+{
+	S<int, IntLess> stack;
+
+	stack.push(5);
+	stack.push(7);
+	stack.push(6);
+	stack.push(3);
+	assert(3 == stack.min());
+
+	stack.push(2);
+	stack.push(4);
+	assert(2 == stack.min());
+
+	stack.pop();
+	stack.pop();
+	stack.pop();
+	assert(5 == stack.min());
+}
+
 void test_stacksAndQueues()
 {
 	test_ThreeStacks<ThreeStacksFixed>();
 	//test_ThreeStacks<ThreeStacksFlexible>(); // implement with flexible division of buffer
+
+	test_minStack<MinStack>();
+	//test_minStack<MinStackWithSecondStack>() // implement with second stack to track min value
 }

@@ -79,6 +79,7 @@
     <ClCompile Include="Interviews.cpp" />
     <ClCompile Include="LinkedLists.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SortingAndSearching.cpp" />
     <ClCompile Include="StacksAndQueues.cpp" />
     <ClCompile Include="TreesAndGraphs.cpp" />
   </ItemGroup>
