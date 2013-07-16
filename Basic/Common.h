@@ -16,6 +16,97 @@ struct NodeD
 };
 
 template<class T>
+struct List
+{
+private:
+	NodeS<T> *head, *tail;
+
+public:
+	List() : head(NULL), tail(NULL) {}
+
+	void push_front(T data)
+	{
+		NodeS<T>* node = new NodeS<T>;
+		node->data = data;
+		node->next = head;
+
+		if(!head)
+		{
+			tail = head = node; // init
+		}
+		else
+		{
+			head = node;	
+		}
+	}
+
+	void push_back(T data)
+	{
+		NodeS<T>* node = new NodeS<T>;
+		node->data = data;
+		node->next = NULL;
+
+		if(!tail)
+		{
+			tail = head = node; // init
+		}
+		else
+		{
+			tail->next = node;
+			tail = node;
+		}
+	}
+
+	void clear()
+	{
+		while(head)
+		{
+			NodeS<T>* node = head;
+			head = head->next;
+			delete node;
+		}
+		tail = head = NULL;
+	}
+
+	~List()
+	{
+		NodeS<T>* node;
+		while(head)
+		{
+			node = head;
+			head = head->next;
+			delete node;
+		}
+	}
+
+	struct Iterator
+	{
+	private:
+		NodeS<T> *curr;
+
+	public:
+		Iterator(const List &l) : curr(l.head) {}
+
+		T value() const
+		{
+			if(!curr) std::abort();
+			return curr->data;
+		}
+
+		void advance()
+		{
+			if(!curr) std::abort();
+			curr = curr->next;
+		}
+
+		bool good() const
+		{
+			return curr;
+		}
+	};
+};
+
+template<class T>
 struct Stack
 {
 private:
@@ -45,7 +136,7 @@ public:
 		return data;
 	}
 
-	bool empty()
+	bool empty() const
 	{
 		return !head;
 	}
@@ -91,7 +182,7 @@ public:
 		return data;
 	}
 
-	bool empty()
+	bool empty() const
 	{
 		return !head;
 	}
@@ -110,5 +201,15 @@ template<class T>
 struct NodeG
 {
 	T data;
-	NodeS<NodeG> *children; // head of child list
+	List<NodeG*> neighbors; // outbound for directed graph, bi-directional for undirected graph
+};
+
+struct IntLess
+{
+	bool operator()(int a, int b) { return a < b; }
+};
+
+struct IntLessOrEqual
+{
+	bool operator()(int a, int b) { return a <= b; }
 };
