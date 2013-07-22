@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="ArraysAndStrings.cpp" />
+    <ClCompile Include="Interviews.cpp" />
+    <ClCompile Include="LinkedLists.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="SortingAndSearching.cpp" />
+    <ClCompile Include="StacksAndQueues.cpp" />
+    <ClCompile Include="TreesAndGraphs.cpp" />
+    <ClCompile Include="Common.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="List.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{8e6a7be0-d963-41c1-a847-54faee526677}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

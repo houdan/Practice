@@ -1,4 +1,7 @@
 #include "Common.h"
+#include "List.h"
+#include "Stack.h"
+#include "Queue.h"
 #include <assert.h>
 
 void test_stack()

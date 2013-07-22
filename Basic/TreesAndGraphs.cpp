@@ -1,4 +1,8 @@
 #include "Common.h"
+#include "Graph.h"
+#include "List.h"
+#include "Stack.h"
+#include "Queue.h"
 #include <unordered_set>
 #include <assert.h>
 
