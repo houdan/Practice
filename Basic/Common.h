@@ -24,6 +24,22 @@ private:
 public:
 	List() : head(NULL), tail(NULL) {}
 
+	List(const List<T> &rhs) 
+	{
+		*this = rhs;
+	}
+
+	List& operator=(const List<T> &rhs)
+	{
+		head = tail = NULL;
+
+		List<T>::Iterator it(rhs);
+		for(; it.good(); it.advance())
+			push_back(it.value());
+
+		return *this;
+	}
+
 	void push_front(T data)
 	{
 		NodeS<T>* node = new NodeS<T>;

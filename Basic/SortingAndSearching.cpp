@@ -122,37 +122,31 @@ struct QuickSort
 	template<class T, class TComparer>
 	static int partition(T a[], int start, int end, int pivot, TComparer &comp)
 	{
+		const T p_val = a[pivot];
+
 		// Move pivot to the end
 		swap(a[pivot], a[end]);
 
-		int index_left = start;
-		int index_right = end-1;
-
 		// Move two pointer from two ends to middle
-		//  - Elements before index_left must come before pivot
-		//  - Elements after index_right must come after pivot
-		while(index_left <= index_right)  // !!!!!!!!!!!!!!!!!!!!!!!!!!! <=
+		int l = start;   // left of l must come before pivot
+		int r = end-1;   // right of r must come after pivot
+
+		while(l <= r) // !!!!!! left must pass right
 		{
-			while(comp(a[index_left], a[pivot]))
-			{
-				index_left++;     // !!!!!!!!!!! must update inside for loop
-			}
+			while(l <= r && comp(a[l], p_val)) l++;
 
-			while(comp(a[pivot], a[index_right]))
-			{
-				index_right--;
-			}
+			while(l <= r && comp(p_val, a[r])) r--;
 
-			if(index_left < index_right)
+			if(l < r)
 			{
-				swap(a[index_left++], a[index_right--]);
+				swap(a[l++], a[r--]);
 			}
 		}
 
 		// Move pivot back 
-		swap(a[end], a[index_left]);
+		swap(a[end], a[l]); // l now pointing to first value that come after pivot
 
-		return index_left;
+		return l;
 	}
 
 	template<class T, class TComparer>
@@ -190,6 +184,7 @@ void test_comparisonSorting()
 	for(int i=0; i<count; i++)
 		assert(a[i] == i);
 }
+
 //void test_integerSorting()
 //{
 //	

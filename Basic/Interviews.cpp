@@ -1,3 +1,4 @@
+#include "Common.h"
 #include <unordered_map>
 #include <assert.h>
 
@@ -110,8 +111,85 @@ namespace Netflix
 	}
 };
 
+namespace Ooyala
+{
+	template<int M, int N>
+	void getDiagonals(int a[M][N], Queue<List<int> > &out)
+	{
+		// Get diagnals starting from first row
+		for(int i=0; i<N; i++)
+		{
+			int row = 0;
+			int col = i;
+
+			List<int> diag;	
+			while(row<M && col>=0)
+			{
+				diag.push_back(a[row++][col--]);
+			}
+
+			out.enqueue(diag);
+		}
+
+		// Get diagnals starting from last col
+		for(int i=1; i<M; i++)
+		{
+			int row = i;
+			int col = N-1;
+
+			List<int> diag;	
+			while(row<M && col>=0)
+			{
+				diag.push_back(a[row++][col--]);
+			}
+
+			out.enqueue(diag);
+		}
+	}
+
+	void test_getDiagonals()
+	{
+		int a[4][3] = 
+		{
+			{0, 1, 2},
+			{3, 4, 5},
+			{6, 7, 8},
+			{9, 10, 11}
+		};
+
+		Queue<List<int> > out;
+		getDiagonals<4,3>(a, out);
+		
+		int d[6][3] = 
+		{
+			// -1 is just for padding
+			{0, -1, -1},
+			{1, 3, -1},
+			{2, 4, 6},
+			{5, 7, 9},
+			{8, 10, -1},
+			{11, -1, -1}
+		};
+
+		int i = 0;
+		while(!out.empty())
+		{
+			int j = 0;
+			List<int> diag = out.dequeue();
+			List<int>::Iterator it(diag);
+			for(; it.good(); it.advance())
+			{
+				assert(d[i][j++] == it.value());
+			}
+			i++;
+		}
+		assert(i == 6);
+	}
+}
+
 void test_interviews()
 {
 	A9::test_computeDistance();
 	Netflix::test_moveZeros();
+	Ooyala::test_getDiagonals();
 }
