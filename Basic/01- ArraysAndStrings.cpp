@@ -124,7 +124,7 @@ void test_replaceSpace()
 	assert(strcmp(a,b) == 0);
 }
 
-int computeCompressionLength(const string &s)
+int cmputecmpressionLength(const string &s)
 {
 	int len = 0;
 	stringstream tmp;
@@ -153,12 +153,12 @@ int computeCompressionLength(const string &s)
 }
 
 // This version works on stringstream for concatenating chars and ints. 
-// Alternatively, one could create char array based on compression size,
+// Alternatively, one could create char array based on cmpression size,
 // and convert int to char array based on modulo (better to work backwards)
-string basicStringCompression(const string &s)
+string basicStringcmpression(const string &s)
 {
 	int old_len = s.length();
-	int new_len = computeCompressionLength(s); // !!!!!!!!
+	int new_len = cmputecmpressionLength(s); // !!!!!!!!
 	if(new_len >= old_len)
 		return s;
 
@@ -181,12 +181,12 @@ string basicStringCompression(const string &s)
 	return new_s.str();
 }
 
-void test_basicStringCompression()
+void test_basicStringcmpression()
 {
-	string a = basicStringCompression("abbcccdddd");
+	string a = basicStringcmpression("abbcccdddd");
 	assert(strcmp(a.c_str(), "a1b2c3d4") == 0); 
 
-    string b = basicStringCompression("abbccdd");
+    string b = basicStringcmpression("abbccdd");
 	assert(strcmp(b.c_str(), "abbccdd") == 0); 
 }
 
@@ -297,7 +297,7 @@ void test_arraysAndStrings()
 	test_reverse();
 	test_isPermutation();
 	test_replaceSpace();
-	test_basicStringCompression();
+	test_basicStringcmpression();
 	test_rotateMatrix();
 	test_setZeros();
 }

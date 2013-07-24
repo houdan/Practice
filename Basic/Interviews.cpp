@@ -14,7 +14,7 @@ namespace A9
 		Node* parent;
 	};
 
-	int computeDistance(Node* n1, Node* n2)
+	int cmputeDistance(Node* n1, Node* n2)
 	{
 		unordered_map<Node*, int> n1_ancestors;
 		int distance = 0;
@@ -38,9 +38,9 @@ namespace A9
 		return -1;
 	}
 
-	void test_computeDistance()
+	void test_cmputeDistance()
 	{
-		// Complete Binary Tree
+		// cmplete Binary Tree
 		const int count = 10;
 		Node nodes[count];
 		for(int i=0; i<count; i++)
@@ -49,10 +49,10 @@ namespace A9
 			nodes[i].parent = (i>0) ? &nodes[(i-1)/2] : NULL;
 		}
 
-		assert(1 == computeDistance(&nodes[0], &nodes[2]));
-		assert(4 == computeDistance(&nodes[7], &nodes[9]));
-		assert(5 == computeDistance(&nodes[8], &nodes[6]));
-		assert(0 == computeDistance(&nodes[4], &nodes[4]));
+		assert(1 == cmputeDistance(&nodes[0], &nodes[2]));
+		assert(4 == cmputeDistance(&nodes[7], &nodes[9]));
+		assert(5 == cmputeDistance(&nodes[8], &nodes[6]));
+		assert(0 == cmputeDistance(&nodes[4], &nodes[4]));
 	}
 };
 
@@ -191,7 +191,7 @@ namespace Ooyala
 
 void test_interviews()
 {
-	A9::test_computeDistance();
+	A9::test_cmputeDistance();
 	Netflix::test_moveZeros();
 	Ooyala::test_getDiagonals();
 }

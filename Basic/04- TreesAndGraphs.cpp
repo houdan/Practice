@@ -161,7 +161,7 @@ struct TraversalBT
 template<template<class T>class Func>
 void test_binaryTreeTraversal(TraversalBT::Type type)
 {
-	// Complete Binary Tree
+	// cmplete Binary Tree
 	const int count = 10;
 	NodeBT<int> nodes[count];
 	for(int i=0; i<count; i++)
@@ -248,7 +248,7 @@ void test_graphTraversal(TraversalGraph::Type type)
 	const int count = 10;
 	NodeG<int> nodes[count];
 
-	// init as complete binary tree first
+	// init as cmplete binary tree first
 	for(int i=0; i<count; i++)
 	{
 		nodes[i].data = i;
@@ -385,7 +385,7 @@ void test_checkPathExist()
 	const int count = 10;
 	NodeG<int> nodes[count];
 
-	// init as complete binary tree first
+	// init as cmplete binary tree first
 	for(int i=0; i<count; i++)
 	{
 		nodes[i].data = i;
