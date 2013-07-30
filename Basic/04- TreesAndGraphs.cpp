@@ -161,7 +161,7 @@ struct TraversalBT
 template<template<class T>class Func>
 void test_binaryTreeTraversal(TraversalBT::Type type)
 {
-	// cmplete Binary Tree
+	// complete Binary Tree
 	const int count = 10;
 	NodeBT<int> nodes[count];
 	for(int i=0; i<count; i++)

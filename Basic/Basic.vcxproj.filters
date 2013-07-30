@@ -12,7 +12,8 @@
     <ClCompile Include="03- StacksAndQueues.cpp" />
     <ClCompile Include="04- TreesAndGraphs.cpp" />
     <ClCompile Include="07- MathAndProbability.cpp" />
-    <ClCompile Include="05- Bit Manipulation.cpp" />
+    <ClCompile Include="05- BitManipulation.cpp" />
+    <ClCompile Include="09- RecursionAndDP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h">
