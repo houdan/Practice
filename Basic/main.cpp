@@ -1,28 +1,13 @@
 
-void test_common();
-void test_interviews();
-void test_arraysAndStrings();
-void test_linkedLists();
-void test_stacksAndQueues();
-void test_treesAndGraphs();
-void test_bitManipulation();
-void test_mathAndProbability();
-void test_recursionAndDP();
-void test_sortingAndSearching();
-
+void test_stack();
+void test_queue();
+void test_list();
 
 int main()
 {
-	test_common();
-	test_interviews();
-	test_arraysAndStrings();
-	test_linkedLists();
-	test_stacksAndQueues();
-	test_treesAndGraphs();
-	test_bitManipulation();
-	test_mathAndProbability();
-	test_recursionAndDP();
-	test_sortingAndSearching();
-
+	test_list();
+	test_stack();
+    test_queue();
+    
 	return 0;
 }

@@ -1,5 +1,4 @@
 #include "Common.h"
-#include "List.h"
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -259,7 +258,7 @@ void test_binarySearching()
 }
 
 template<class T, class TComparer>
-void mergeArrays(T a[], T b[], int an, int bn, TComparer &cmp)
+void mergeSortedArray(T a[], int an, T b[], int bn, TComparer &cmp)
 {
 	int index_a = an-1;
 	int index_b = bn-1;
@@ -273,13 +272,13 @@ void mergeArrays(T a[], T b[], int an, int bn, TComparer &cmp)
 			a[index--] = a[index_a--];
 	}
 
-	while(index_b > 0)
+	while(index_b >= 0)  // !!!!!!!!!!! index_b >= 0
 		a[index--] = b[index_b--];
 
 	// if index_a > 0, values in a are already in place
 }
 
-void test_mergeArrays()
+void test_mergeSortedArray()
 {
 	const int an = 100; 
 	const int bn = 50;
@@ -292,7 +291,7 @@ void test_mergeArrays()
 	for(int i=0; i<bn; i++)
 		b[i] = i * 2;
 
-	mergeArrays(a, b, an, bn, IntLessOrEqual());
+	mergeSortedArray(a, an, b, bn, IntLessOrEqual());
 
 	for(int i=1; i<an+bn; i++)
 	{
@@ -370,6 +369,6 @@ void test_sortingAndSearching()
 	test_binarySearching<BinarySearchIterative>();
 	test_binarySearching<BinarySearchRecursion>();
 
-	test_mergeArrays();   // 11.1
+	test_mergeSortedArray();   // 11.1
 	test_groupAnagrams(); // 11.2
 }

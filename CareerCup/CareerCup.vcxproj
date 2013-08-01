@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{30D2F860-C530-43A7-920E-115F01447FB2}</ProjectGuid>
+    <ProjectGuid>{B9658D2C-8DC6-4EBE-8A3F-B2DB901EE4BC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Basic</RootNamespace>
+    <RootNamespace>CareerCup</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -74,17 +74,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="List.cpp" />
+    <ClCompile Include="01- ArraysAndStrings.cpp" />
+    <ClCompile Include="02- LinkedLists.cpp" />
+    <ClCompile Include="03- StacksAndQueues.cpp" />
+    <ClCompile Include="04- TreesAndGraphs.cpp" />
+    <ClCompile Include="05- BitManipulation.cpp" />
+    <ClCompile Include="07- MathAndProbability.cpp" />
+    <ClCompile Include="09- RecursionAndDP.cpp" />
+    <ClCompile Include="11- SortingAndSearching.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Queue.cpp" />
-    <ClCompile Include="Stack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
-    <ClInclude Include="Graph.h" />
-    <ClInclude Include="List.h" />
-    <ClInclude Include="Queue.h" />
-    <ClInclude Include="Stack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

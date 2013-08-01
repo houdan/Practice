@@ -7,15 +7,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="01- ArraysAndStrings.cpp" />
+    <ClCompile Include="02- LinkedLists.cpp" />
+    <ClCompile Include="03- StacksAndQueues.cpp" />
+    <ClCompile Include="04- TreesAndGraphs.cpp" />
+    <ClCompile Include="05- BitManipulation.cpp" />
+    <ClCompile Include="07- MathAndProbability.cpp" />
+    <ClCompile Include="09- RecursionAndDP.cpp" />
+    <ClCompile Include="11- SortingAndSearching.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="01- String.cpp" />
-    <ClCompile Include="02- Array.cpp" />
-    <ClCompile Include="03- LinkedList.cpp" />
-    <ClCompile Include="04- BinarySearch.cpp" />
-    <ClCompile Include="05- BinaryTree.cpp" />
-    <ClCompile Include="06- Graph.cpp" />
-    <ClCompile Include="07- DynamicP.cpp" />
-    <ClCompile Include="08- General.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />

@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 struct ListNode {
 	int val;
@@ -13,4 +14,10 @@ struct TreeNode {
 	TreeNode *right;
 	TreeNode() : left(0), right(0) {}
 	TreeNode(int x) : val(x), left(0), right(0) {}
+};
+
+struct GraphNode {
+	int val;
+	std::vector<GraphNode*> neighbors; 
+	GraphNode(int x) : val(x) {}
 };

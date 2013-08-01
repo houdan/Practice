@@ -74,11 +74,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BinarySearch.cpp" />
-    <ClCompile Include="BinaryTree.cpp" />
-    <ClCompile Include="LinkedList.cpp" />
+    <ClCompile Include="02- Array.cpp" />
+    <ClCompile Include="04- BinarySearch.cpp" />
+    <ClCompile Include="05- BinaryTree.cpp" />
+    <ClCompile Include="07- DynamicP.cpp" />
+    <ClCompile Include="08- General.cpp" />
+    <ClCompile Include="03- LinkedList.cpp" />
+    <ClCompile Include="06- Graph.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="String.cpp" />
+    <ClCompile Include="01- String.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />

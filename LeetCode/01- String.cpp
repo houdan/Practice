@@ -150,6 +150,7 @@ void test_longestPalindrome()
 
 void test_string()
 {
+	// Given a string S, find the longest palindromic substring in S
 	test_longestPalindrome<LongestPalindromeDPRecursion>();  // more efficient
 	test_longestPalindrome<LongestPalindromeDPIterative>();
 	test_longestPalindrome<LongestPalindromeExpand>();

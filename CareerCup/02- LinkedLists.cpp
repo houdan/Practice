@@ -415,7 +415,7 @@ void test_linkedLists()
 	test_partitionOnX();
 
 	test_addTwoReverse();
-	//test_addTwoForward(); // TODO: implement it
+	//test_addTwoForward(); // TODO: implement it, need padding, recursion with carry-on value passed back via reference
 
 	test_findLoopStart<FindLoopStart1>();
 	//test_findLoopStart<FindLoopStart1>(); // TODO: implement two pointers version

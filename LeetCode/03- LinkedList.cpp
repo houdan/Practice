@@ -161,6 +161,101 @@ void test_reverseBetween()
 	}
 }
 
+struct HasLoopWithTwoPointers
+{
+	static bool run(ListNode* head)
+	{
+		ListNode* fast = head;
+		ListNode* slow = head;
+
+		while(fast && fast->next)  // if loop exists, "next" never points to NULL
+		{
+			fast = fast->next->next;
+			slow = slow->next;
+			if(slow == fast)
+				return true;
+		}
+		return false;
+	}
+};
+
+template<class Func>
+void test_hasLoop()
+{
+	const int count = 5;
+	int a[count] = {0,1,2,3,4};
+	
+	ListNode* head_a = buildLinkedList(a, count);
+	assert(!Func::run(head_a));
+
+	ListNode* curr = head_a;
+	while(curr->next) curr = curr->next;
+	curr->next = head_a->next;
+	assert(Func::run(head_a));
+}
+
+
+ListNode* rotateRight(ListNode *head, int k) 
+{
+	if(!head) return NULL;
+
+	ListNode* curr, *kToLast;
+	curr = kToLast = head;
+
+	int n = 1;
+	int dist = 0;
+	while(curr->next) // curr is eventually at tail
+	{
+		curr = curr->next;
+		n += 1; // count list length
+
+		if(dist < k)
+			dist++;
+		else
+			kToLast = kToLast->next;
+	}
+
+	if(n <= k) // k is larger than list length n
+	{
+		k = k % n; // modify k
+
+		int dist = 0; 
+		curr = kToLast = head;
+		while(curr->next) // traverse again
+		{
+			curr = curr->next;
+
+			if(dist < k)
+				dist++;
+			else
+				kToLast = kToLast->next;
+		}
+	}
+
+	curr->next = head;
+	head = kToLast->next;
+	kToLast->next = NULL;
+	
+	return head;
+}
+
+void test_rotateRight()
+{
+	const int count = 5;
+
+	int a[count] = {0,1,2,3,4};
+	ListNode* head_a = buildLinkedList(a, count);
+
+	int b[count] = {3,4,0,1,2};
+	ListNode* head_b = buildLinkedList(b, count);
+
+	head_a = rotateRight(head_a, 2);
+	assert(compareLinkedList(head_a, head_b));
+
+	deleteLinkedList(head_a);
+	deleteLinkedList(head_b);
+}
+
 void test_linkedList()
 {
 	// Reverse a Singlely Linked List
@@ -170,7 +265,17 @@ void test_linkedList()
 	// Reverse a linked list from position m to n
 	test_reverseBetween();
 
-	// Detecting a Loop in a Singly Linked List
+	// Given a list, split it into two sublists
+	// note: use fast/slow pointers
 
+	// Detecting a Loop in a Singly Linked List
+	// note: could also by reversing
+	test_hasLoop<HasLoopWithTwoPointers>();  
+
+    // Rotate a Singlely Linked List To Right by k
+	// note: two pointers
+	test_rotateRight();
+
+	// Merge Sorted Singlely Linked Lists
 
 }
