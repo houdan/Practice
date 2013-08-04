@@ -33,3 +33,13 @@ struct IntLessOrEqual
 {
 	bool operator()(int a, int b) { return a <= b; }
 };
+
+struct IntGreater
+{
+	bool operator()(int a, int b) { return a > b; }
+};
+
+struct IntGreaterOrEqual
+{
+	bool operator()(int a, int b) { return a >= b; }
+};

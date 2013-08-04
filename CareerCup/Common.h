@@ -3,3 +3,4 @@
 #include "../Basic/List.h"
 #include "../Basic/Stack.h"
 #include "../Basic/Queue.h"
+#include "../Basic/Heap.h"

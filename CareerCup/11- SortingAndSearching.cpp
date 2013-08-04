@@ -172,6 +172,31 @@ struct QuickSort
 	}
 };
 
+struct HeapSort
+{
+	template<class T, class Tcomparer>
+	static void run(T a[], int n, Tcomparer &cmp)
+	{
+		// convert to a heap
+		heapify(a, n, cmp);
+
+		int end = n-1;
+		while(end > 0)
+		{
+			// pop from heap and place it at the end (!!! reverse order) 
+			swap(a[0], a[end]); 
+
+			// put heap back in order
+			end -= 1;
+			siftDown(a, end+1, 0, cmp);
+		}
+
+		// convert back to correct order (!!! not needed if using opposite comparer to build the heap)  
+		int l = 0, r = n-1;
+		while(l < r) swap(a[l++], a[r--]);
+	}
+};
+
 template<class Func>
 void test_comparisonSorting()
 {
@@ -187,11 +212,6 @@ void test_comparisonSorting()
 	for(int i=0; i<n; i++)
 		assert(a[i] == i);
 }
-
-//void test_integerSorting()
-//{
-//	
-//}
 
 struct BinarySearchIterative
 {
@@ -364,11 +384,11 @@ void test_sortingAndSearching()
 
 	test_comparisonSorting<MergeSort>();
 	test_comparisonSorting<QuickSort>();
-	//test_comparisonSorting<HeapSort>(); // implement heapsort
+	test_comparisonSorting<HeapSort>();
 
 	test_binarySearching<BinarySearchIterative>();
 	test_binarySearching<BinarySearchRecursion>();
 
 	test_mergeSortedArray();   // 11.1
-	test_groupAnagrams(); // 11.2
+	test_groupAnagrams();      // 11.2
 }
