@@ -38,18 +38,24 @@ namespace
 		deleteBinaryTree(root->right);
 		delete root;
 	}
+}
 
-	bool compareBinaryTree(TreeNode *root1, TreeNode *root2)
-	{
-		if(root1 == NULL && root2 == NULL)
-			return true;
+// pre-order
+bool isSameTree(TreeNode *p, TreeNode *q) 
+{
+	if(p == NULL && q == NULL)
+		return true;
 
-		if(!(root1 && root2) || root1->val != root2->val)
-			return false;
+	if(!(p && q) || p->val != q->val)
+		return false;
 
-		return compareBinaryTree(root1->left, root2->left) &&
-			   compareBinaryTree(root1->right, root2->right);
-	}
+	return isSameTree(p->left, q->left) &&
+		   isSameTree(p->right, q->right);
+}
+
+void test_isSameTree()
+{
+	// Passed all tests on OJ
 }
 
 struct IsValidBSTWithPreOrder
@@ -191,24 +197,84 @@ void test_deserializeBST()
 	serilaizeBST(root_a, ss);
 
 	TreeNode* root_b = deserializeBST(ss);
-	assert(compareBinaryTree(root_a, root_b));
+	assert(isSameTree(root_a, root_b));
 
 	deleteBinaryTree(root_a);
 	deleteBinaryTree(root_b);
 }
 
+TreeNode* sortedArrayToBST(vector<int> &a, int lo, int hi) 
+{
+	if(lo > hi) return NULL; // base case
+
+	int mi = (lo + hi) / 2;
+
+	TreeNode* node = new TreeNode(a[mi]);
+	node->left = sortedArrayToBST(a, lo, mi-1);
+	node->right = sortedArrayToBST(a, mi+1, hi);
+
+	return node;
+}
+
+TreeNode* sortedArrayToBST(vector<int> &a) 
+{
+	return sortedArrayToBST(a, 0, a.size()-1);
+}
+
+void test_sortedArrayToBST()
+{
+	// Passed all tests on OJ
+}
+
+TreeNode *sortedListToBST(ListNode *&head, int lo, int hi) 
+{
+	if(lo > hi) return NULL; 
+
+	int mi = lo + (hi-lo)/2; // avoid overflow
+	TreeNode *left = sortedListToBST(head, lo, mi-1);
+	TreeNode *parent = new TreeNode(head->val); // in-order
+	parent->left = left;
+	head = head->next; // traverse list
+	parent->right = sortedListToBST(head, mi+1, hi);
+
+	return parent;
+}
+
+TreeNode *sortedListToBST(ListNode *head) 
+{
+	int n = 0;
+	ListNode *curr = head;
+	while(curr)
+	{
+		n++;
+		curr = curr->next;
+	}
+	return sortedListToBST(head, 0, n-1);
+}
+
+void test_sortedListToBST()
+{
+	// Passed all tests on OJ
+}
+
 void test_binaryTree()
 {
-	// Determine if a Binary Tree is a Binary Search Tree 
+	// Determine if two binary trees are same
+	test_isSameTree();
+
+	// Determine if a Binary Tree is a BST 
 	test_isValidBST<IsValidBSTWithPreOrder>();  // check range
 	test_isValidBST<IsValidBSTWithInOrder>();   // check order
 
-	// Largest Subtree Which is a Binary Search Tree
-
-	// Serialize Binary Search Tree
+	// Serialize BST
 	test_serilaizeBST();  // pre-order, maybe level-order?
 
-	// Deserialize Binary Search Tree
+	// Deserialize BST
 	test_deserializeBST(); // pre-order, maybe level-order?
 
+	// Convert Sorted Array to Balanced BST
+	test_sortedArrayToBST();
+
+	// Convert Sorted List to Balanced BST ????
+	test_sortedListToBST();
 }

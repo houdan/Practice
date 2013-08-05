@@ -148,6 +148,91 @@ void test_longestPalindrome()
 	assert(s == Func::run(s));
 }
 
+
+struct IsMatchRegexWithBT
+{
+	// backtracking here only needs to find one valid solution
+	static bool run(const char *s, const char *p) 
+	{
+		if(*p == 0) return *s == 0; // base case
+		// note: if *s==0 but *p!=0, need to wait to see *(p+1) is * to cancel *p
+
+		// see if *p matches *s: 'a' - 'a', or 'a' - '.'
+		if(*p == *s || (*p == '.' && *s != 0))
+		{
+			return *(p+1) != '*' ? run(s+1, p+1) /* both move to next */: 
+				run(s+1, p) /* repeat more times */ || run(s, p+2) /* repeat zero time */;
+		}
+		else // see if *p can be cancelled by '*': 'a' - 'b*', or '\0' - '.*' 
+		{
+			return *(p+1) == '*' && run(s, p+2);
+		}
+	}
+};
+
+struct IsMatchRegexWithDP
+{
+	static bool run(const char *s, const char *p) 
+	{
+		int s_len = strlen(s);
+		int p_len = strlen(p);
+
+		// cache(i,j) entry means if p's first i chars match s' first j chars
+		vector<vector<bool> > cache(p_len+1, vector<bool>(s_len+1, false));
+
+		// init
+		cache[0][0] = true;
+		for(int i=1; i<=s_len; i++)
+		{
+			cache[0][i] = false;
+		}
+		for(int i=1; i<=p_len; i++)
+		{
+			if(p[i-1] == '*') 
+			{
+				assert(i > 1); // '*' can never be at p[0]
+				cache[i][0] = cache[i-2][0]; // '*' can always cancel prev char
+			}
+			else
+				cache[i][0] = false;
+		}
+
+		// since it scans row by row, DP cache could just store two rows: last and current
+		for(int i=1; i<=p_len; i++)
+			for(int j=1; j<=s_len; j++)
+			{
+				if(p[i-1] == '*') // special case: '*' - 'A'
+				{
+					assert(i > 1); // '*' can never be at p[0]
+					cache[i][j] = (cache[i-1][j] || cache[i-2][j]) /* p=[__a|*__] s=[__a|__] or p=[__ab|*__] s=[__a|__] */ ||
+						(cache[i][j-1] && (p[i-2] == s[j-1] || p[i-2] == '.') /* p=[__a|*__] s=[__|a__] or p=[__.|*__] s=[__|a__] */ );
+				}
+				else if(p[i-1] == s[j-1] || p[i-1] == '.') // match case: 'A' - 'A' or '.' - 'A'
+				{
+					cache[i][j] = cache[i-1][j-1];
+				}
+				else // failure case: 'A' - 'B'
+				{
+					cache[i][j] = false;
+				}
+			}
+
+		return cache[p_len][s_len];
+	}
+};
+
+template<class Func>
+void test_isMatchRegex()
+{
+	assert(!Func::run("aa", "a"));   
+	assert(Func::run("aa", "aa")); 
+	assert(!Func::run("aaa", "aa")); 
+	assert(Func::run("aa", "a*")); 
+	assert(Func::run("aa", ".*")); 
+	assert(Func::run("ab", ".*")); 
+	assert(Func::run("aab", "c*a*b")); 
+}
+
 void test_string()
 {
 	// Given a string S, find the longest palindromic substring in S
@@ -158,4 +243,15 @@ void test_string()
 	// how about longest common substring??
 	// how about longest common subsequence??
 	// how about longest Palindromic subsequence??
+
+	// Implement regular expression matching (full string)
+	// note: "." should not match to "\0" terminator
+	//       "*" should be part of prev char, e.g. "a*" or ".*"
+	test_isMatchRegex<IsMatchRegexWithBT>(); // backtracking
+	test_isMatchRegex<IsMatchRegexWithDP>(); // dynamic programming
+
+	// how about matching with partial string??
+
+
+	
 }

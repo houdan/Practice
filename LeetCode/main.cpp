@@ -4,6 +4,7 @@ void test_string();
 void test_linkedList();
 void test_binaryTree();
 void test_binarySearch();
+void test_dynamicDP();
 void test_graph();
 void test_general();
 

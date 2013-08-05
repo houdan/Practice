@@ -264,70 +264,6 @@ void test_solveSudoku()
 	assert(isValidSudoku(board));
 }
 
-int uniquePaths(int m, int n, int i, int j, vector<vector<int> > &cache)
-{
-	if(i>=m || j>=n) return 0; // failure case, backtracking
-	if(i==m-1 && j==n-1) return 1; // base case
-
-	if(cache[i][j] == -1) // !!!!! zero-based index
-	{
-		cache[i][j] = uniquePaths(m, n, i+1, j, cache) + 
-			          uniquePaths(m, n, i, j+1, cache);
-	}
-
-	return cache[i][j];
-}
-
-int uniquePaths(int m, int n)
-{
-	vector<vector<int> > cache(m, vector<int>(n, -1));
-	return uniquePaths(m, n, 0, 0, cache); // !!!!!!! zero-based index
-}
-
-void test_uniquePaths()
-{
-	assert(uniquePaths(1,1) == 1);
-	assert(uniquePaths(2,2) == 2);
-	assert(uniquePaths(3,3) == 6);
-}
-
-int uniquePathsWithObstacles(int m, int n, int i, int j, vector<vector<int> > &obstacleGrid, vector<vector<int> > &cache)
-{
-	if(i>=m || j>=n) return 0; // failure case, backtracking
-	if(obstacleGrid[i][j] == 1) return 0; // obstacle case !!!!!!! must come before base case
-	if(i==m-1 && j==n-1) return 1; // base case
-
-	if(cache[i][j] == -1)
-	{
-		cache[i][j] = uniquePathsWithObstacles(m, n, i+1, j, obstacleGrid, cache) + 
-			          uniquePathsWithObstacles(m, n, i, j+1, obstacleGrid, cache);
-	}
-
-	return cache[i][j];
-}
-
-int uniquePathsWithObstacles(vector<vector<int> > &obstacleGrid)
-{
-	assert(obstacleGrid.size() != 0 && obstacleGrid[0].size() != 0);
-
-	int m = obstacleGrid.size();
-	int n = obstacleGrid[0].size();
-
-	vector<vector<int> > cache(m, vector<int>(n, -1));
-	return uniquePathsWithObstacles(m, n, 0, 0, obstacleGrid, cache);
-}
-
-void test_uniquePathsWithObstacles()
-{
-	vector<vector<int> > obstacleGrid_a(1, vector<int>(1, 0));
-	obstacleGrid_a[0][0] = 1;
-	assert(uniquePathsWithObstacles(obstacleGrid_a) == 0);
-
-	vector<vector<int> > obstacleGrid_b(3, vector<int>(3, 0));
-	obstacleGrid_b[1][1] = 1;
-	assert(uniquePathsWithObstacles(obstacleGrid_b) == 2);
-}
-
 void test_general()
 {
 	// Reverse digits of an integer
@@ -345,11 +281,4 @@ void test_general()
 	// Solve a Sudoku puzzle by filling the empty cells
 	// note: backtracking
 	test_solveSudoku();
-
-	// Count unique paths in a m*n grid from (1,1) to (N,N)
-	// note: backtracking with DP
-	test_uniquePaths();
-
-	// Count unique paths in a m*n grid from (1,1) to (N,N) with obstacles
-	test_uniquePathsWithObstacles();
 }
