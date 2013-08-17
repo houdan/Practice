@@ -22,7 +22,7 @@ int searchRotatedSortedArray(int a[], int n, int k)
 			else
 				hi = mi - 1;
 		}
-		else // upper half is sorted
+		else // lower half is sorted
 		{
 			if(a[mi] > k && a[lo] <= k) // in range of lower half
 				hi = mi - 1;
@@ -55,9 +55,9 @@ int findSortedArrayRotation(int a[], int n)
 
 		// !!!! test upper half first, because can't make decision when n=2, mi==lo
 		if(a[mi] > a[hi])  
-			lo = mi + 1;
+			lo = mi + 1;    // dive into unsorted upper half. note: must do lo=mi+1, otherwise it has endless loop when n=2. e.g [2,1]
 		else
-			hi = mi;
+			hi = mi; // !!!! dive into unsorted lower half (one optimization could be also move lo = lo + 1). note: can't do hi=mi-1, since mi could be min index
 	}
 
 	return lo;

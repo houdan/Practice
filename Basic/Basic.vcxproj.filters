@@ -6,6 +6,7 @@
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="List.cpp" />
     <ClCompile Include="Heap.cpp" />
+    <ClCompile Include="Sorting.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stack.h" />
@@ -14,5 +15,6 @@
     <ClInclude Include="List.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Heap.h" />
+    <ClInclude Include="Sorting.h" />
   </ItemGroup>
 </Project>

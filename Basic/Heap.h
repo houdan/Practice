@@ -51,7 +51,7 @@ void siftUp(T a[], int size, int start, TComparer &cmp)
 	int i = start;
 	while(true)
 	{
-		int parent = std::floor(float(i-1)/2); 
+		int parent = (int)std::floor(float(i-1)/2); 
 		if(parent < 0) return; // no parent anymore
 
 		if(cmp(a[parent], a[i])) return; // no need to siftup anymore
@@ -95,7 +95,7 @@ void heapify(T a[], int size, TComparer &cmp, bool bottomUp=true)
 	if(bottomUp)
 	{
 		// the parent of last leaf is a[size-1]
-		int i = floor(float(size-2)/2); 
+		int i = (int)floor(float(size-2)/2); 
 		while(i >= 0)
 		{
 			siftDown(a, size, i, cmp);

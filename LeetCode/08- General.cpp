@@ -1,98 +1,9 @@
 #include "Common.h"
 #include <vector>
+#include <string>
 #include <assert.h>
 
 using namespace std;
-
-int reverseInteger(int x)
-{
-	bool isNeg = x < 0;
-	x = abs(x);
-
-	int result = 0;
-	while(x > 0)
-	{
-		result = result*10 + x%10;
-		x = x/10;
-	}
-
-	// check overflow 
-	if(result < 0) return 10; // !!! 10,100,...reverse to 1, but nothing reverse to 10, 100,...
-
-	return isNeg ? -1*result : result; // !!! result, not x
-}
-
-void test_reverseInteger()
-{
-	assert(reverseInteger(0) == 0);
-	assert(reverseInteger(1) == 1);
-	assert(reverseInteger(10) == 1);
-	assert(reverseInteger(123) == 321);
-	assert(reverseInteger(-1) == -1);
-	assert(reverseInteger(-10) == -1);
-	assert(reverseInteger(1000000003) == 10);
-}
-
-struct IsPalindromeIterative
-{
-	static bool run(int x)
-	{
-		if(x < 0) return false;
-		if(x == 0) return true;
-
-		// find divisor to get first digit
-		int div = 1;
-		while(x / div >= 10) // !!!!!!!! use >=
-			div *= 10;
-
-		while(x > 0)
-		{
-			// compare fist and last digit
-			if(x / div != x % 10)
-				return false;
-
-			// chop off first and last digit 
-			x = (x % div) / 10;
-			div /= 100; // !!!!!!!! update
-		}
-		return true;
-	}
-};
-
-struct IsPalindromeRecursion
-{
-	static bool isPalindrome(int x, int &y)
-	{
-		if(x < 0) return false;
-		if(x == 0) return true;
-		
-		// use recursion stack to chop off first digit
-		if(isPalindrome(x/10, y) && (x%10 == y%10)) // use x%10 to get first digit, y%10 to get last digit
-		{
-			y /= 10; // use this to chop off last digit
-			return true;
-		}
-		else
-			return false;
-	}
-
-	static bool run(int x)
-	{
-		return isPalindrome(x, x);
-	}
-};
-
-template<class Func>
-void test_isPalindrome()
-{
-	assert(!Func::run(-1));
-	assert(Func::run(0));
-	assert(Func::run(1));
-	assert(!Func::run(10));
-	assert(Func::run(11));
-    assert(Func::run(121));
-	assert(Func::run(1221));
-}
 
 bool isValidSudoku(vector<vector<char> > &board) 
 {
@@ -264,16 +175,152 @@ void test_solveSudoku()
 	assert(isValidSudoku(board));
 }
 
+bool exist(vector<vector<char> > &board, string word, int i, int j) 
+{
+	assert(!word.empty());
+
+	if(i >= board.size() || j >= board[0].size() || board[i][j] != word[0]) // base cases
+		return false; 
+
+	board[i][j] = '#';
+	string newWord = word.substr(1);
+
+	if(newWord.empty() ||
+	   exist(board, newWord, i, j+1) /* right */ ||
+	   exist(board, newWord, i+1, j) /* down  */ ||
+	   exist(board, newWord, i, j-1) /* left  */ ||
+	   exist(board, newWord, i-1, j) /* up    */ )
+	   return true;
+
+	board[i][j] = word[0];
+	return false;
+}
+
+bool exist(vector<vector<char> > &board, string word) 
+{
+	if(word.empty()) return false;
+
+	// find starting cell
+	for(int i=0; i<board.size(); i++)
+		for(int j=0; j<board[0].size(); j++)
+		{
+			if(board[i][j] == word[0])
+			{
+				if(exist(board, word, i, j)) 
+					return true;
+			}
+		}
+
+	return false;
+}
+
+void test_exist()
+{
+	// passed all tests on OJ
+}
+
+int minimumTotal(vector<vector<int> > &triangle) 
+{
+	int n = triangle.size();
+	vector<int> sums(n+1, 0); // the row below last row
+
+	while(n >= 1)
+	{
+		for(int i=0; i<n; i++)
+		{
+			sums[i] = triangle[n-1][i] + min(sums[i], sums[i+1]); 	
+		}
+		n -= 1;
+	}
+	return sums[0];
+}
+
+void test_minimumTotal()
+{
+	// passed all tests on OJ
+}
+
+void generateParenthesis(vector<string> &out, string curr, int n, int l, int r)
+{
+	if(l == n && r == n)
+	{
+		out.push_back(curr);
+		return;
+	}
+
+	if(l < n) generateParenthesis(out, curr+"(", n, l+1, r);
+	if(l > r) generateParenthesis(out, curr+")", n, l, r+1);
+}
+
+vector<string> generateParenthesis(int n) 
+{
+	vector<string> out;
+	generateParenthesis(out, "", n, 0, 0);
+	return out;
+}
+
+void test_generateParenthesis()
+{
+	// all tests passed on OJ
+}
+
+
+void solveNQueens(vector<string> &board, int n, int row, vector<bool> &cols, vector<bool> &diags_left, vector<bool> &diags_right, vector<vector<string> > &output)
+{
+	if(row == n) // found valid solution
+	{
+		output.push_back(board);
+		return;
+	}
+
+	for(int col=0; col<n; col++)
+	{
+		if(cols[col]) // check column attack
+			continue;
+
+		int r = col + row;   // !!!!!!! start from the top-left corner to the right
+		int l = n - 1 - col + row;  // !!!!!!!!! start from the top-right corner to the left
+		if(diags_left[l] || diags_right[r]) // check diagonal attack
+			continue;
+
+		// update state
+		board[row][col] = 'Q';
+		cols[col] = true;
+		diags_left[l] = true;
+		diags_right[r] = true;
+		
+		solveNQueens(board, n, row+1, cols, diags_left, diags_right, output);
+
+		// revert state
+		board[row][col] = '.';
+		cols[col] = false;
+		diags_left[l] = false;
+		diags_right[r] = false;
+	}
+}
+
+vector<vector<string> > solveNQueens(int n) 
+{
+	vector<vector<string> > output;
+	if(n == 0) return output;
+
+	vector<bool> cols(n, false);
+	vector<bool> diags_left(2*n-1, false);
+	vector<bool> diags_right(2*n-1, false);
+
+	vector<string> board(n, string(n, '.'));
+	solveNQueens(board, n, 0, cols, diags_left, diags_right, output);
+	return output;
+}
+
+void test_solveNQueens()
+{
+	solveNQueens(2);
+}
+
 void test_general()
 {
-	// Reverse digits of an integer
-	test_reverseInteger();
-
 	// Reverse bits of an unsigned integer
-
-	// Determine whether an integer is a palindrome. Do this without extra space
-	test_isPalindrome<IsPalindromeIterative>();
-	test_isPalindrome<IsPalindromeRecursion>();
 
 	// Determine if a Sudoku puzzle is valid
 	test_isValidSudoku();
@@ -281,4 +328,16 @@ void test_general()
 	// Solve a Sudoku puzzle by filling the empty cells
 	// note: backtracking
 	test_solveSudoku();
+
+	// Word Search
+	test_exist();
+
+	// Find the minimum path sum in a triangle
+	test_minimumTotal();
+
+	// Generate Parentheses
+	test_generateParenthesis();
+
+	// Find all distinct solutions to the n-queens puzzle 
+	test_solveNQueens();
 }

@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <assert.h>
 
 using namespace std;
@@ -233,6 +234,88 @@ void test_isMatchRegex()
 	assert(Func::run("aab", "c*a*b")); 
 }
 
+string minWindow(string S, string T) 
+{
+	int t_count[256] = {0}; // char count in T
+	int w_count[256] = {0}; // char count in window
+
+	for(int i=0; i<T.length(); i++)
+		t_count[T[i]]++;
+
+	int t_count_total = T.length();
+	int w_count_found = 0;
+
+	int w_start = 0, w_end = 0; // current window
+	int w_start_min = 0, w_length_min = INT_MAX; // minimum window 
+
+	for(; w_end < S.length(); w_end++)
+	{
+		// advance w_end to meet constraint
+		char c = S[w_end];
+		if(t_count[c] == 0) continue; // not in T
+	
+		w_count[c]++; 
+	    if(t_count[c] >= w_count[c]) w_count_found++; // only increment if c helps meet constraints
+		
+		if(w_count_found == t_count_total) // !!!! this will always be entered after first valid window is found 
+		{
+			// advance w_start as far as possible while maintaining constrants
+			for(; w_start <= w_end; w_start++)  // !!!!!! this could be optimized to directly jump to next possible position (indices of chars in S that exists in T)
+			{
+				char d = S[w_start];
+				if(t_count[d] == 0) continue;  // not in T
+					
+				if(t_count[d] < w_count[d])
+					w_count[d]--;
+				else
+					break; // if advance past this, will break constraints 
+			}
+
+			// update minimum window
+			int w_length = w_end - w_start + 1;
+			if(w_length < w_length_min)
+			{
+				w_start_min = w_start;
+				w_length_min = w_length;
+			}
+		}
+	}
+
+	if(w_length_min != INT_MAX)
+		return S.substr(w_start_min, w_length_min);
+	else
+		return "";
+}
+
+void test_minWindow()
+{
+	assert(minWindow("cabwefgewcwaefgcf", "cae") == "cwae");
+}
+
+int numDistinct(string S, string T) 
+{
+	vector<int> cache(T.length()+1, 0);
+	cache[0] = 1; // !!!! this is always unchanged
+
+	for(int i = 0; i < S.length(); i++)
+	{
+		// need to move backwards 
+		// cache[i][j] = cache[i-1][j] + (S[i-1]==T[j-1]) * cache[i-1][j-1] 
+		for(int j = T.length()-1; j >= 0; j--)
+		{
+			if(T[j] == S[i])
+				cache[j+1] += cache[j];
+		}
+	}
+
+	return cache.back();
+}
+
+void test_numDistinct()
+{
+	// all tests passed on OJ
+}
+
 void test_string()
 {
 	// Given a string S, find the longest palindromic substring in S
@@ -252,6 +335,9 @@ void test_string()
 
 	// how about matching with partial string??
 
+	// Minimum Window Substring
+	test_minWindow();
 
-	
+	// Distinct Subsequences
+	test_numDistinct();
 }

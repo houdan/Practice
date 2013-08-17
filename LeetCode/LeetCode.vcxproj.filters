@@ -16,6 +16,8 @@
     <ClCompile Include="06- Graph.cpp" />
     <ClCompile Include="07- DynamicP.cpp" />
     <ClCompile Include="08- General.cpp" />
+    <ClCompile Include="00- Integer.cpp" />
+    <ClCompile Include="00- Bits.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />

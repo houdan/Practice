@@ -35,7 +35,8 @@ struct BinaryTreeInOrderIterative
 			else
 			{
 				root = stack.pop();
-				out.enqueue(root->data);
+				out.enqueue(root->data); // visit root before traverse right subtree
+
 				root = root->right;
 			}
 		}
@@ -66,13 +67,14 @@ struct BinaryTreePreOrderIterative
 		
 		while(root || !stack.empty())
 		{
-			if(root)
+			if(root) // keep recursing down the tree through left child
 			{
-				out.enqueue(root->data);
+				out.enqueue(root->data);  // visit root before traverse left subtree
+
 				stack.push(root);
 				root = root->left;
 			}
-			else // when it goes beyond leaf
+			else // when it goes beyond leaf, back up one level and keep recursing through right child
 			{
 				root = stack.pop();
 				root = root->right;
@@ -126,7 +128,7 @@ struct BinaryTreeLevelOrder
 
 		while(root) // !!!! better than condition on queue.empty(), since it also checks input root is NULL case
 		{
-			out.enqueue(root->data);
+			out.enqueue(root->data);  // visit before put it in the queue
 
 			if(root->left)
 				queue.enqueue(root->left);
@@ -204,13 +206,13 @@ struct GraphBreadthFirst
 		while(!q.empty())
 		{
 			List<NodeG<T>*>::Iterator it(q.dequeue()->neighbors);
-			for(; it.good(); it.advance())
+			for(; it.good(); it.advance()) // explore unvisited nodes
 			{
 				NodeG<T> *node = it.value();
 				if(visited.count(node)>0)
 					continue;
 
-				out.enqueue(node->data); // visit 
+				out.enqueue(node->data); // !!!! visit first
 				visited.insert(node); // mark as visited
 				q.enqueue(node); // enqueue to explore later
 			}

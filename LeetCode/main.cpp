@@ -1,4 +1,6 @@
 
+void test_bits();
+void test_integer();
 void test_array();
 void test_string();
 void test_linkedList();
@@ -10,6 +12,8 @@ void test_general();
 
 int main()
 {
+	test_bits();
+	test_integer();
     test_array();
 	test_string();
 	test_linkedList();
