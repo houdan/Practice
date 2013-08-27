@@ -187,9 +187,66 @@ namespace Ooyala
 	}
 }
 
+// dzhang@twitter.com
+namespace Twitter
+{
+	string IntToBinaryIterative(string num)
+	{
+		string output;
+
+		int start = 0;
+		while(start < num.length())
+		{
+			int remainder = 0;
+			for(int i=start; i<num.length(); i++)
+			{
+				unsigned int d = num[i] - '0';
+
+				unsigned int nominator = remainder * 10 + d;
+				remainder = nominator % 2;
+				d = nominator / 2;
+				num[i] = '0' + d; 
+
+				if(i == start && d == 0) // check if leading digit has become zero
+					start += 1;
+			}   
+			output = string(1, '0' + remainder).append(output);
+		} 
+        
+		return output;
+	}
+
+    string IntToBinaryRecursive(string num)
+	{
+		if(num.length() == 0)
+			return "";
+
+		int remainder = 0;
+		for(int i=0; i<num.length(); i++)
+		{
+			unsigned int d = num[i] - '0';
+
+			unsigned int nominator = remainder * 10 + d;
+			remainder = nominator % 2;
+			d = nominator / 2;
+			num[i] = '0' + d; 
+		}   
+
+		int start = (num[0] == '0') ? 1 : 0; // check if leading digit has become zero
+		return IntToBinaryRecursive(num.substr(start)).append(string(1, '0' + remainder));
+	}
+
+	void test_intToBinary()
+	{
+		string output = IntToBinaryRecursive("16");
+		assert(output.compare("1111011") == 0);
+	}
+}
+
 void test_interviews()
 {
 	A9::test_computeDistance();
 	Netflix::test_moveZeros();
 	Ooyala::test_getDiagonals();
+	Twitter::test_intToBinary();
 }

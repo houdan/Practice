@@ -1,5 +1,6 @@
 #include "Common.h"
 #include <vector>
+#include <algorithm>
 #include <assert.h>
 
 using namespace std;
@@ -299,6 +300,115 @@ void test_removeDuplicates2()
 	// passed all tests on OJ
 }
 
+vector<vector<int> > threeSum(vector<int> &num) 
+{
+	sort(num.begin(), num.end());
+
+	vector<vector<int> > result;
+	for(int i=0; i<num.size(); i++)
+	{
+		if(i > 0 && num[i] == num[i-1])
+			continue; // same number resulted in same solution
+
+		int a = num[i];
+		int j = i + 1;
+		int k = num.size() - 1;
+		while(j < k)
+		{
+			if(j > i + 1 && num[j] == num[j-1])
+			{   
+				j = j + 1;
+				continue; // same number resulted in same solution
+			}
+
+			int b = num[j];
+			int c = num[k];
+			if(a + b + c == 0)
+			{
+				result.resize(result.size()+1);
+				vector<int> &res = result.back();
+				res.push_back(a);
+				res.push_back(b);
+				res.push_back(c);
+				j = j + 1;  // !!!!!! move both
+				k = k - 1;  // !!!!!!
+			}
+			else if (a + b + c < 0)
+				j = j + 1;
+			else
+				k = k - 1;
+		}
+	}
+
+	return result;
+}
+
+void test_threeSum()
+{
+	// all tests passed
+}
+
+int threeSumClosest(vector<int> &num, int target) 
+{
+	assert(num.size() >= 3);
+	sort(num.begin(), num.end());
+
+	int closest = num[0] + num[1] + num[2];  // !!!!!!!!!! init value
+	for(int i=0; i<num.size(); i++)
+	{
+		if(i > 0 && num[i] == num[i-1])
+			continue; // same number resulted in same solution
+
+		int a = num[i];
+		int j = i + 1;
+		int k = num.size() - 1;
+		while(j < k)
+		{
+			if(j > i + 1 && num[j] == num[j-1])
+			{   
+				j = j + 1;
+				continue; // same number resulted in same solution
+			}
+
+			int sum = a + num[j] + num[k];
+
+			if(abs(closest - target) > abs(sum - target))
+				closest = sum; // update closet
+
+			if(sum == target)
+				return sum;
+			else if (sum < target)  // !!!!!!!!
+				j = j + 1;
+			else
+				k = k - 1;
+		}
+	}
+
+	return closest;
+}
+
+void test_threeSumClosest()
+{
+	// all tests passed on OJ
+}
+
+int maxSubArray(int a[], int n) 
+{
+	assert(n > 0);
+	int maxSum = a[0], curSum = a[0];
+	for(int i=1; i<n; i++)
+	{
+		curSum = std::max(curSum + a[i], a[i]);
+		maxSum = std::max(maxSum, curSum);
+	}
+	return maxSum;
+}
+
+void test_maxSubArray()
+{
+	// all tests passed on OJ
+}
+
 void test_array()
 {
 	// Rotate Array
@@ -319,6 +429,7 @@ void test_array()
 	// Two-Sum
 
 	// Three-Sum
+	test_threeSum();
 
 	// Four-Sum
 

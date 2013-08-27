@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <assert.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -318,6 +319,59 @@ void test_solveNQueens()
 	solveNQueens(2);
 }
 
+vector<vector<int> > subsets(vector<int> &S) 
+{
+	sort(S.begin(), S.end());
+	vector<vector<int> > results;
+
+	int count = 1 << S.size();
+	for(int i=0; i<count; i++)
+	{
+		vector<int> v;
+		for(int j=0; j<S.size(); j++)
+		{
+			if(i & (1 << j))
+				v.push_back(S[j]);
+		}
+		results.push_back(v);
+	}
+	return results;
+}
+
+void test_subsets()
+{
+	// all tests passed
+}
+
+vector<vector<int> > subsetsWithDup(vector<int> &S) 
+{
+	sort(S.begin(), S.end());
+	vector<vector<int> > results(1); // init with first empty set
+
+	int last_start = 0;
+	for(int i=0; i<S.size(); i++)
+	{
+		// first distinct items always add to all previous subsets
+		// duplicated items only add to previous subsets added by last same item
+		int start = (i > 0 && S[i] == S[i-1]) ? last_start : 0; 
+	    int end = results.size();
+
+		last_start = results.size();
+		for(int j=start; j<end; j++)
+		{
+			results.push_back(results[j]);
+			results.back().push_back(S[i]);
+		}
+	}
+
+	return results;
+}
+
+void test_subsetsWithDup()
+{
+	// all tests passed on OJ
+}
+
 void test_general()
 {
 	// Reverse bits of an unsigned integer
@@ -340,4 +394,10 @@ void test_general()
 
 	// Find all distinct solutions to the n-queens puzzle 
 	test_solveNQueens();
+
+	// Find all subsets of distinct integers
+	test_subsets();
+
+	// Find all subsets of integers with duplicates
+	test_subsetsWithDup();
 }

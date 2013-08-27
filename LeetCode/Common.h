@@ -25,6 +25,13 @@ struct TreeNode2 {
 	TreeNode2(int x) : val(x), left(0), right(0), parent(0) {}
 };
 
+struct TreeLinkNode 
+{
+	int val;
+	TreeLinkNode *left, *right, *next;
+	TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+};
+
 struct GraphNode {
 	int val;
 	std::vector<GraphNode*> neighbors; 

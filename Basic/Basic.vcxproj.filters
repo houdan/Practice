@@ -7,6 +7,7 @@
     <ClCompile Include="List.cpp" />
     <ClCompile Include="Heap.cpp" />
     <ClCompile Include="Sorting.cpp" />
+    <ClCompile Include="BitSet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stack.h" />
@@ -16,5 +17,6 @@
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Heap.h" />
     <ClInclude Include="Sorting.h" />
+    <ClInclude Include="BitSet.h" />
   </ItemGroup>
 </Project>

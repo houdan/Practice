@@ -68,6 +68,34 @@ void test_uniquePathsWithObstacles()
 	assert(uniquePathsWithObstacles(obstacleGrid_b) == 2);
 }
 
+int climbStairs(int n, int start, vector<int> &cache)
+{
+	if(start > n)   
+		return 0;
+
+	if(start == n) // base case !!!!!! n is the last step
+		return 1;
+	
+	if(cache[start] < 0)
+	{
+		cache[start] = climbStairs(n, start + 1, cache) + 
+			climbStairs(n, start + 2, cache);
+	}
+
+	return cache[start];
+}
+
+int climbStairs(int n) 
+{
+	vector<int> cache(n+1, -1);
+	return climbStairs(n, 0, cache);
+}
+
+void test_climbStairs()
+{
+	climbStairs(1);
+}
+
 void test_dynamicDP()
 {
 	// Count unique paths in a m*n grid from (1,1) to (N,N)
@@ -77,5 +105,9 @@ void test_dynamicDP()
 	// Count unique paths in a m*n grid from (1,1) to (N,N) with obstacles
 	// note: backtracking with DP
 	test_uniquePathsWithObstacles();
+
+	// Count unique ways to climb stairs to reach top
+	test_climbStairs();
+
 
 }

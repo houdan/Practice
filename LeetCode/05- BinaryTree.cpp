@@ -679,7 +679,76 @@ void recoverTree(TreeNode *root)
 
 void test_recoverTree()
 {
-	recoverTree(NULL);
+	// all tests passed on OJ
+}
+
+vector<vector<int> > zigzagLevelOrder(TreeNode *root) 
+{
+	vector<vector<int> > result;
+	if(!root) return result;
+
+	stack<TreeNode*> curr, next;
+	curr.push(root);
+
+	result.resize(1);
+	int curr_level = 0;
+	bool curr_left_to_right = true;
+	
+	while(!curr.empty())
+	{
+		TreeNode *node = curr.top();
+		result[curr_level].push_back(node->val);
+
+		if(curr_left_to_right)
+		{
+			if(node->left) next.push(node->left);
+			if(node->right) next.push(node->right);
+		}
+		else
+		{
+			if(node->right) next.push(node->right);
+			if(node->left) next.push(node->left);
+		}
+
+		curr.pop();
+		if(curr.empty() && !next.empty())
+		{
+			result.resize(result.size()+1);
+			curr_level += 1;
+			curr_left_to_right = !curr_left_to_right;  // !!!!!!!!!! change direction
+			curr.swap(next);
+		}
+	}
+}
+
+void test_zigzagLevelOrder()
+{
+	zigzagLevelOrder(NULL);
+}
+
+void connect(TreeLinkNode *root) 
+{
+	TreeLinkNode *head = root;
+
+	while(head)
+	{
+		if(!head->left) break; // reached last level
+
+		TreeLinkNode *curr = head;
+		while(curr)
+		{
+			curr->left->next = curr->right;
+			curr->right->next = (curr->next) ? curr->next->left : NULL;
+			curr = curr->next;
+		}
+
+		head = head->left;
+	}
+}
+
+void test_connect()
+{
+	// all tests passed on OJ
 }
 
 void test_binaryTree()
@@ -732,4 +801,10 @@ void test_binaryTree()
 
 	// Binary Tree Inorder Traversal without stack
 	test_inorderTraversalWithoutStack();
+
+    // Binary Tree Zigzag Level Order Traversal 
+	test_zigzagLevelOrder();
+
+	// Populating Next Right Pointers in Each Node
+	test_connect();
 }

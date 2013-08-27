@@ -248,7 +248,7 @@ string minWindow(string S, string T)
 	int w_start = 0, w_end = 0; // current window
 	int w_start_min = 0, w_length_min = INT_MAX; // minimum window 
 
-	for(; w_end < S.length(); w_end++)
+	for(; w_end < S.length(); w_end++) // move w_end to right by 1
 	{
 		// advance w_end to meet constraint
 		char c = S[w_end];
@@ -259,7 +259,7 @@ string minWindow(string S, string T)
 		
 		if(w_count_found == t_count_total) // !!!! this will always be entered after first valid window is found 
 		{
-			// advance w_start as far as possible while maintaining constrants
+			// advance w_start to right as far as possible while maintaining constrants
 			for(; w_start <= w_end; w_start++)  // !!!!!! this could be optimized to directly jump to next possible position (indices of chars in S that exists in T)
 			{
 				char d = S[w_start];
@@ -316,6 +316,47 @@ void test_numDistinct()
 	// all tests passed on OJ
 }
 
+int lengthOfLongestSubstring(string s) 
+{
+	bool flag[26];
+	for(int i=0; i<26; i++)
+		flag[i] = false;
+
+	int maxLen = 0;
+	int i = 0;
+	int j = 0;
+	while(i < s.length()) 
+	{
+		while(j < s.length()) // move window end position as far as it can
+		{
+			int id = s[j] - 'a';
+			if(flag[id])
+				break;
+				
+			flag[id] = true;
+			j = j + 1;
+		}
+
+		// update max window
+		maxLen = std::max(maxLen, j - i); 
+
+		if (j == s.length())  // !!!!!!!!! no need to move window start if window end already reaches string end
+			break;
+
+		// move window start position by 1  
+		int id = s[i] - 'a';
+		flag[id] = false;
+		i = i + 1;
+	}
+
+	return maxLen;
+}
+
+void test_lengthOfLongestSubstring()
+{
+	lengthOfLongestSubstring("abcd");
+}
+
 void test_string()
 {
 	// Given a string S, find the longest palindromic substring in S
@@ -340,4 +381,7 @@ void test_string()
 
 	// Distinct Subsequences
 	test_numDistinct();
+
+	// Longest Substring Without Repeating Characters
+	test_lengthOfLongestSubstring();
 }
